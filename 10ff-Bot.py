@@ -1,4 +1,5 @@
-import os
+
+import sys
 import pyautogui, time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -6,10 +7,28 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-path = "your/path/to/chromedriver"
+path = r"your/path/to/chromedriver"
 
-driver = webdriver.Chrome(path)
-driver.get("https://www.google.com")
+def main():
+    if(len(sys.argv) >= 2):
+        if(sys.argv[1] == "-h" or sys.argv[1] == "--help"):
+            print(f"\nUsage: {sys.argv[0]} --<mode>\
+                \n\nMode:\n\t--normtest = to enter the normal typing test.\
+                \n\t--advtest = to enter the advanced typing test.\
+                \n\t--compete = to compete with other players.".expandtabs(4))
+        else:
+            global driver
+            driver = webdriver.Chrome(path)
+            if(sys.argv[1] == "--normtest"): typingTest()
+            elif(sys.argv[1] == "--advtest"): advTypingTest()
+            elif(sys.argv[1] == "--compete"): multiplayerTypingTest()
+            else: sys.exit(1)
+
+    else:
+        print(f"\nUsage: {sys.argv[0]} --<mode>\
+            \nFor more, check help section:\
+            \n\t{sys.argv[0]} --help 'or' -h".expandtabs(4))
+
 
 def locator(selector, reference):
     outcome = WebDriverWait(driver, 10).until(EC.presence_of_element_located((selector, reference)))
@@ -48,6 +67,7 @@ def typingTest():
     driver.quit()
 
 def advTypingTest():
+    
     driver.get('https://10fastfingers.com/advanced-typing-test/')
 
     allow = locator(By.ID,'CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection')
@@ -80,13 +100,14 @@ def advTypingTest():
     driver.quit()  
 
 def multiplayerTypingTest():
+    
     driver.get('https://10ff.net/login')
 
     typerInput = locator(By.ID,'username')
     time.sleep(1)
     typerInput.click()
 
-    typerInput.send_keys('your_name')
+    typerInput.send_keys('10ff_bot')
     typerInput.send_keys(Keys.ENTER)
 
     time.sleep(18)
@@ -108,7 +129,6 @@ def multiplayerTypingTest():
     driver.quit()
     
 
+if __name__ == "__main__":
+    main()
 
-typingTest()
-# advTypingTest()
-# multiplayerTypingTest()
