@@ -1,7 +1,13 @@
+#=================================================
+#       Typing Bot
+#   version = "v1.0.2"
+#   Author: HackitMikey (Mikey)
+#
+# Python3.x based typing bot for 10fastfingers.com
+#===================================================
 
-import argparse
+import argparse, re, time
 from argparse import RawTextHelpFormatter
-import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -11,8 +17,10 @@ from selenium.webdriver.support import expected_conditions as EC
 path = r"C:\Users\harsh\chromedriver_win32\chromedriver.exe"
 
 def main():
+
     parser = argparse.ArgumentParser(description="A super fast typer bot for 10fastfingers.com", formatter_class=RawTextHelpFormatter)
     parser.add_argument('-l', '--login', metavar='', help='plays with user specified profile.\nFormat= --login <email-id>&passwd')
+    parser.add_argument('-u', '--user', metavar='', help='plays with user specified name(only applicable in competitive mode).\nFormat= --user name')
     parser.add_argument('-t', '--tempo', metavar='', help='plays with user specified speed.\nFormat= --tempo <int>x\n\t  --tempo max')
     mode = parser.add_argument_group("typing mode arguments")
     mode.add_argument('-n', '--normtest', action='store_true', help='enters the normal typing test')
@@ -22,16 +30,22 @@ def main():
     args = parser.parse_args()
     
     global driver
-    driver = webdriver.Chrome(path)
     
     if (bool(args.login)):
-
-        loginArr = args.login.split('>&')
-        login_(loginArr[0][1:], loginArr[1])
-        loggedIn = True
+        
+        Regex = re.compile(r'^<[a-zA-Z0-9._%+-]+@gmail\.com>&[a-zA-Z0-9._%+-]')
+        validate = Regex.search(args.login)
+        if not validate:
+            parser.error("format: <user.email@gmail.com>&passwd")
+        else:
+            driver = webdriver.Chrome(path)
+            loginArr = args.login.split('>&', 1)
+            login_(loginArr[0][1:], loginArr[1])
+            loggedIn = True
     else:
 
         loggedIn = False
+        driver = webdriver.Chrome(path)
         driver.get("https://10fastfingers.com")
         allow = locator(By.ID,'CybotCookiebotDialogBodyLevelButtonLevelOptinAllowallSelection')
         time.sleep(2)
@@ -46,9 +60,16 @@ def main():
 
     argument = arg_validator(args.normtest, args.advtest, args.compete)
     if argument == '-n' or argument == '-a':
-        typeIt(argument, speed, loggedIn)
+        if(bool(args.user)):
+            parser.error("only applicable with competitive mode.")
+        else:
+            typeIt(argument, speed, loggedIn)
     elif argument == '-c':
-        multiplayerTypingTest()
+        if(bool(args.user) == 0):
+            user = "10ff_bot"
+        else:
+            user = args.user
+        multiplayerTypingTest(speed, user)
     elif argument == -1:
         parser.error("atleast select one mode.")  
     else:
@@ -80,12 +101,12 @@ def login_(email, password):
         allow.click()
     
     email_box = locator(By.ID, "UserEmail")
-    time.sleep(1)
+    time.sleep(0.5)
     email_box.click()
     email_box.send_keys(email)
 
     password_box = locator(By.ID, "UserPassword")
-    time.sleep(1)
+    time.sleep(0.5)
     password_box.click()
     password_box.send_keys(password)
     password_box.send_keys(Keys.ENTER)
@@ -109,10 +130,10 @@ def typeIt(arg, speed, auth):
             advSec.click()
 
     typerInput = locator(By.ID,'inputfield')
-    time.sleep(1)
+    time.sleep(0.5)
     typerInput.click()
 
-    nSpeed = 0.1
+    nSpeed = 0.2
     i=1
     timer = 60
     try:
@@ -122,7 +143,6 @@ def typeIt(arg, speed, auth):
                 timer = 60
             else: 
                 timer = int(timer_str[2:])
-                print(timer)
             word = locator(By.XPATH,f'//*[@id="row1"]/span[{i}]').text
             for char in word:
                 typerInput.send_keys(char)
@@ -149,31 +169,44 @@ def typeIt(arg, speed, auth):
     driver.quit()
     
 
-def multiplayerTypingTest():
+def multiplayerTypingTest(speed, username):
     
     driver.get('https://10ff.net/login')
 
     typerInput = locator(By.ID,'username')
-    time.sleep(1)
     typerInput.click()
 
-    typerInput.send_keys('10ff_bot')
+    typerInput.send_keys(username)
     typerInput.send_keys(Keys.ENTER)
 
-    time.sleep(18)
+    check = '10'
+    while check != '1':
+        check = locator(By.XPATH, '//*[@id="game"]/div[2]/div').text 
+        i = 1
+        driver.implicitly_wait(i)
 
     input_ = locator(By.CSS_SELECTOR,'input')
     input_.click()
 
     try:
+        nSpeed = 0.2
         i=1
-        while True:
+        while i:
             word = locator(By.XPATH,f'//*[@id="game"]/div[3]/div[2]/div[1]/div/span[{i}]').text
-            input_.send_keys(word)
+            for char in word:
+                input_.send_keys(char)
+                if(speed ==  "max"):
+                    pass
+                else:
+                    time.sleep(nSpeed/int(speed[:-1]))
             input_.send_keys(Keys.SPACE)
             i+=1
     except:
-        wpm = locator(By.XPATH, '//*[@id="game"]/div[3]/div[2]/div/div/table/tbody/tr/td[2]').text
+        for i in range(1, 6):
+            user = locator(By.XPATH, f'//*[@id="game"]/div[3]/div[2]/div/div/table/tbody/tr[{i}]/td[1]').text.replace(" ", "")
+            if user != username: continue
+            else: break
+        wpm = locator(By.XPATH, f'//*[@id="game"]/div[3]/div[2]/div/div/table/tbody/tr[{i}]/td[2]').text
         wpm = wpm.replace(" ", "").split()
         print("-"*30, "\n", f"{wpm[0]} WPM")
     time.sleep(2)
