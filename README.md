@@ -10,16 +10,18 @@ path = r"make\sure\to\insert\your\chromedriver\path\here"
 
 Outcome:
 
-```
+```powershell
 
-usage: 10ff-Bot.py [-h] [-l] [-t] [-n] [-a] [-c]    
+usage: 10ff-Bot.py [-h] [-l] [-u] [-t] [-n] [-a] [-c]
 
-A super fast typer bot for 10fastfingers.com        
+A super fast typer bot for 10fastfingers.com
 
 optional arguments:
-  -h, --help      show this help message and exit   
+  -h, --help      show this help message and exit
   -l , --login    plays with user specified profile.
                   Format= --login <email-id>&passwd
+  -u , --user     plays with user specified name(only applicable in competitive mode).
+                  Format= --user name
   -t , --tempo    plays with user specified speed.
                   Format= --tempo <int>x
                           --tempo max
@@ -32,4 +34,4 @@ typing mode arguments:
 
 ---
 
->## Website: https://www.10fastfingers.com
+>### Website: https://www.10fastfingers.com
