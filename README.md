@@ -12,12 +12,22 @@ Outcome:
 
 ```
 
-Usage: .\10ff-Bot.py --<mode>
+usage: 10ff-Bot.py [-h] [-l] [-t] [-n] [-a] [-c]    
 
-Mode:
-    --normtest = to enter the normal typing test.
-    --advtest = to enter the advanced typing test.
-    --compete = to compete with other players.
+A super fast typer bot for 10fastfingers.com        
+
+optional arguments:
+  -h, --help      show this help message and exit   
+  -l , --login    plays with user specified profile.
+                  Format= --login <email-id>&passwd
+  -t , --tempo    plays with user specified speed.
+                  Format= --tempo <int>x
+                          --tempo max
+
+typing mode arguments:
+  -n, --normtest  enters the normal typing test
+  -a, --advtest   enters the advanced typing test
+  -c, --compete   enters the competitive mode
 ```
 
 ---
