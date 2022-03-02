@@ -14,7 +14,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-path = r"your\path\to\chromedriver.exe"
+path = r"C:\Users\harsh\chromedriver_win32\chromedriver.exe"
 
 def main():
 
@@ -30,6 +30,11 @@ def main():
     args = parser.parse_args()
     
     global driver
+
+    if(bool(args.tempo)):
+        speed = args.tempo
+    else:
+        speed = "1x"
     
     if (bool(args.login)):
         
@@ -42,7 +47,19 @@ def main():
             loginArr = args.login.split('>&', 1)
             login_(loginArr[0][1:], loginArr[1])
             loggedIn = True
+
+            # norSec = locator(By.XPATH, '//*[@id="sidebar"]/div/a[1]')
+            # time.sleep(0.5)
+            # norSec.click()
+            # new = locator(By.XPATH, '//*[@id="main"]/div[1]')
+            # time.sleep(1)
+
+            # if(bool(new.text)):
+            #     print(f"{'-'*30}\nAuthentication failed: Email or Password is wrong. Please try again.")
+            #     # driver.quit()
+            #     exit(0)
     else:
+        # //*[@id="main"]/div[1]
 
         loggedIn = False
         driver = webdriver.Chrome(path)
@@ -53,15 +70,11 @@ def main():
         if allow.text == 'Allow selection':
             allow.click()
 
-    if(bool(args.tempo)):
-        speed = args.tempo
-    else:
-        speed = "1x"
-
     argument = arg_validator(args.normtest, args.advtest, args.compete)
     if argument == '-n' or argument == '-a':
         if(bool(args.user)):
             parser.error("only applicable with competitive mode.")
+            driver.quit()
         else:
             typeIt(argument, speed, loggedIn)
     elif argument == '-c':
@@ -71,9 +84,13 @@ def main():
             user = args.user
         multiplayerTypingTest(speed, user)
     elif argument == -1:
-        parser.error("atleast select one mode.")  
+        argument = '-n'
+        typeIt(argument, speed, loggedIn)
+
     else:
         parser.error("select only one mode.")  
+        driver.quit()
+
     # print(login.split('>&')[0][1:])
 
 def arg_validator(f_arg, s_arg, th_arg):
@@ -114,6 +131,16 @@ def login_(email, password):
 
 def typeIt(arg, speed, auth):
 
+    try:
+        main_logo = locator(By.XPATH, '//*[@id="main-logo"]')
+        time.sleep(0.5)
+        if(bool(main_logo) and auth):
+            print(f"{'-'*40}\nAuthentication failed: Email or Password is wrong. Please try again.")
+            driver.quit()
+            exit(1)
+    except:
+        pass
+
     if arg == '-n':
         if(auth):
             pass
@@ -135,7 +162,7 @@ def typeIt(arg, speed, auth):
 
     nSpeed = 0.2
     i=1
-    timer = 60
+    timer = 1
     try:
         while timer > 0:                                                                       
             timer_str = locator(By.XPATH,'//*[@id="timer"]').text
@@ -159,8 +186,7 @@ def typeIt(arg, speed, auth):
             print("-"*30,"\n", f"{wpm[:-4]} wpm")
             driver.quit()
         else:
-            print(timer)
-            time.sleep(timer)
+            time.sleep(timer-5)
             alert_obj = driver.switch_to.alert
             alert_obj.dismiss()
 
