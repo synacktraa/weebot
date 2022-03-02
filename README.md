@@ -34,4 +34,30 @@ typing mode arguments:
 
 ---
 
->### Website: https://www.10fastfingers.com
+### How to Use:
+
+>```python 10ff-Bot.py 'or' python 10ff-Bot.py -n ```↴
+
+: enters the normal typing test
+
+<br>
+
+>```python 10ff-Bot.py -a -t 2x ```↴
+
+: enters the advanced typing test with 2x speed
+
+<br>
+
+>```python 10ff-Bot.py -cu "username" -t max ```↴
+
+: enters the competitive mode with provided username and performs with max typing speed 
+
+<br>
+
+>```python 10ff-Bot.py -l "<useremail@gmail.com>&password" ```↴
+
+: logs in and performs normal typing test
+
+---
+
+> Website: https://www.10fastfingers.com
