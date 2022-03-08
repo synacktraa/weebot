@@ -60,4 +60,22 @@ typing mode arguments:
 
 ---
 
-> Website: https://www.10fastfingers.com
+### Showcase:
+
+Command:
+<p align="center">
+<img width=400 src="https://i.imgur.com/CEo5wda.gif"/>
+</p>
+
+Program In Action:
+<p align="center">
+  <img width=400 src="https://i.imgur.com/7A2Jkgo.gif"/>
+</p>
+
+Upshot:
+<p align="center">
+  <img width=400 src="https://i.imgur.com/rTdAeWz.gif"/>
+</p>
+
+___
+>Website Scraped: <a href="https://www.10fastfingers.com"> 10fastfingers.com</a>
