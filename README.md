@@ -62,18 +62,18 @@ typing mode arguments:
 
 ### Showcase:
 
+<p align="center">Command↴</p>
 <p align="center">
-Command↴
 <img width=500 src="https://i.imgur.com/CEo5wda.gif"/>
 </p>
 
+<p align="center">Program In Action↴</p>
 <p align="center">
-Program In Action↴
   <img width=500 src="https://i.imgur.com/7A2Jkgo.gif"/>
 </p>
 
+<p align="center">Upshot↴</p>
 <p align="center">
-Upshot↴
   <img width=500 src="https://i.imgur.com/rTdAeWz.gif"/>
 </p>
 
