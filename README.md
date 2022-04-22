@@ -1,71 +1,35 @@
 # Typing Bot
->A super fast typer bot for 10fastfingers website written in python.
+>An efficient typing bot for 10ff.net website written in python.
 ---
 ```python
 path = r"make\sure\to\insert\your\chromedriver\path\here"
 ```
 ## Help Section:
 
->```python 10ff-Bot.py -h 'or' --help```
+>```python typer.py -h 'or' --help```
 
 Outcome:
 
 ```powershell
 
-usage: 10ff-Bot.py [-h] [-l] [-u] [-t] [-n] [-a] [-c]
+usage: typer.py [-h] [-u] [-t]
 
-A super fast typer bot for 10fastfingers.com
+An efficient typing bot for 10ff.net
 
-optional arguments:
-  -h, --help      show this help message and exit
-  -l , --login    plays with user specified profile.
-                  Format= --login <email-id>&passwd
-  -u , --user     plays with user specified name(only applicable in competitive mode).
-                  Format= --user name
-  -t , --tempo    plays with user specified speed.
-                  Format= --tempo <int>x
-                          --tempo max
-
-typing mode arguments:
-  -n, --normtest  enters the normal typing test
-  -a, --advtest   enters the advanced typing test
-  -c, --compete   enters the competitive mode
+options:
+  -h, --help     show this help message and exit
+  -u , --user    plays with user specified name
+                 format = --user name
+  -t , --tempo   plays with user specified speed
+                 format = --tempo [ <int>x | max ]
 ```
 
 ---
 
-### How to Use:
-
->```python 10ff-Bot.py 'or' python 10ff-Bot.py -n ```↴
-
-: enters the normal typing test
-
-<br>
-
->```python 10ff-Bot.py -a -t 2x ```↴
-
-: enters the advanced typing test with 2x speed
-
-<br>
-
->```python 10ff-Bot.py -cu "username" -t max ```↴
-
-: enters the competitive mode with provided username and performs with max typing speed 
-
-<br>
-
->```python 10ff-Bot.py -l "<useremail@gmail.com>&password" ```↴
-
-: logs in and performs normal typing test
-
----
-
 ### Showcase:
+<br>
 
-<p align="center">Command↴</p>
-<p align="center">
-<img width=500 src="https://i.imgur.com/CEo5wda.gif"/>
-</p>
+>### python typer.py -u Bot -t max
 
 <p align="center">Program In Action↴</p>
 <p align="center">
@@ -78,4 +42,4 @@ typing mode arguments:
 </p>
 
 ___
->Website Scraped: <a href="https://www.10fastfingers.com"> 10fastfingers.com</a>
+>Website Scraped: <a href="https://www.10ff.net"> 10ff.net</a>
